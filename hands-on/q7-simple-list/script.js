@@ -3,15 +3,13 @@ document.querySelector('#load-btn').addEventListener('click', () => {
     let response1 = await axios.get('https://anapioficeandfire.com/api/books/');
     let books = response1.data;
 
-    for (let j = 0; j < books.length; j++) {
-      async function test() {
-        let povApiArray = books[0].povCharacters;
-        for (let i = 0; i < povApiArray.length; i++) {
-          let povHTML;
-          let povAPI = povApiArray[i];
-          let response2 = await axios.get(povAPI);
+    for (let b of books) {
+      async function getPOV(b) {
+        for (let eachPOV of b.povCharacters) {
+          let response2 = await axios.get(eachPOV);
           let povData = response2.data.name;
           console.log(povData);
+          document.querySelector('#ul').innerHTML = povData;
         }
       }
 
@@ -22,10 +20,10 @@ document.querySelector('#load-btn').addEventListener('click', () => {
 
       document.querySelector('#content').innerHTML += `
       <p>
-        <li>Title: ${books[j].name}</li>
-        <li>Number of Pages: ${books[j].numberOfPages}</li>
+        <li>Title: ${b.name}</li>
+        <li>Number of Pages: ${b.numberOfPages}</li>
         <li>POV Characters:</li>
-        <ul>${test()}</ul>
+        <ul id="ul">${getPOV(b)}</ul>
       </p>
       `;
     }
