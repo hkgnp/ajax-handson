@@ -11,14 +11,17 @@ document.querySelector('#submit').addEventListener('click', () => {
     });
 
     let results = response.data.docs;
-    console.log(results);
+
+    document.querySelector(
+      '#results'
+    ).innerHTML = `<p class="my-2">Number of results found: <b>${response.data.numFound}</b></p>`;
 
     if (results.length != 0) {
       for (let r of results) {
         document.querySelector('#results').innerHTML += `
               <p style="border: 1px solid black">
-              <li>${r.title}</li>
-              <li>${r.author_name}</li>
+              <li><b>Title:</b> ${r.title}</li>
+              <li><b>Author:</b> ${r.author_name}</li>
               </p>
               `;
       }
